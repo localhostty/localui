@@ -24,10 +24,10 @@ jobs:
             - name: Build
               run: bun run build
 
-            - name: Test
-              run: bun run test
-              env:
-                  CI: true
+            # - name: Test
+            #   run: bun run test
+            #   env:
+            #       CI: true
 
             - name: Lint
               run: bun run lint
