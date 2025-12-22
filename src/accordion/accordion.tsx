@@ -1,70 +1,79 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import * as Solid from 'solid-js'
 
-type AccordionProps = Solid.ComponentProps<'div'> & {
-    open: Solid.Accessor<number | null>
-    setOpen: Solid.Setter<number | null>
-}
+import type { Accessor, ComponentProps, Setter } from "solid-js";
+import { createContext, createMemo, splitProps, useContext } from "solid-js";
 
-const AccordionContext = Solid.createContext<AccordionProps>({
-    open: () => null,
-    setOpen: () => {},
-})
+type AccordionProps = ComponentProps<"div"> & {
+  open: Accessor<number | null>;
+  setOpen: Setter<number | null>;
+};
 
-export type AccordionRootProps = Solid.ComponentProps<'div'> & {
-    open: Solid.Accessor<number | null>
-    setOpen: Solid.Setter<number | null>
-}
+const AccordionContext = createContext<AccordionProps>({
+  open: () => null,
+  setOpen: () => null,
+});
+
+export type AccordionRootProps = ComponentProps<"div"> & {
+  open: Accessor<number | null>;
+  setOpen: Setter<number | null>;
+};
 
 export const Root = (props: AccordionRootProps) => {
-    const [splitProps, rest] = Solid.splitProps(props, ['children', 'open', 'setOpen'])
+  const [others, rest] = splitProps(props, ["children", "open", "setOpen"]);
 
-    const contextValue = Solid.createMemo(
-        () => ({
-            open: splitProps.open,
-            setOpen: splitProps.setOpen,
-        }),
-        undefined,
-    )
+  const contextValue = createMemo(
+    () => ({
+      open: others.open,
+      setOpen: others.setOpen,
+    }),
+    undefined
+  );
 
-    return (
-        <AccordionContext.Provider value={contextValue()}>
-            <div {...rest}>{splitProps.children}</div>
-        </AccordionContext.Provider>
-    )
-}
+  return (
+    <AccordionContext.Provider value={contextValue()}>
+      <div {...rest}>{others.children}</div>
+    </AccordionContext.Provider>
+  );
+};
 
-export type AccordionItemProps = Solid.ComponentProps<'div'>
+export type AccordionItemProps = ComponentProps<"div">;
 
-export const Item = (props: AccordionItemProps) => <div {...props} />
+export const Item = (props: AccordionItemProps) => <div {...props} />;
 
-export type AccordionTriggerProps = Solid.ComponentProps<'button'> & {
-    index: number
-    asChild?: boolean
-}
+export type AccordionTriggerProps = ComponentProps<"button"> & {
+  index: number;
+  asChild?: boolean;
+};
 
-export const Trigger = ({ asChild, index, ...props }: AccordionTriggerProps) => {
-    const { open, setOpen } = Solid.useContext(AccordionContext)
+export const Trigger = (props: AccordionTriggerProps) => {
+  const [others, rest] = splitProps(props, ["asChild", "index"]);
+  const { open, setOpen } = useContext(AccordionContext);
 
-    return <button onClick={() => setOpen(open() == index ? null : index)} {...props} />
-}
+  return (
+    <button
+      onClick={() => setOpen(open() === others.index ? null : others.index)}
+      {...rest}
+    />
+  );
+};
 
-export type AccordionContentProps = Solid.ComponentProps<'div'> & {
-    index: number
-    asChild?: boolean
-}
+export type AccordionContentProps = ComponentProps<"div"> & {
+  index: number;
+  asChild?: boolean;
+};
 
-export const Content = ({ asChild, index, ...props }: AccordionContentProps) => {
-    const { open } = Solid.useContext(AccordionContext)
+export const Content = (props: AccordionContentProps) => {
+  const [others, rest] = splitProps(props, ["asChild", "index"]);
+  const { open } = useContext(AccordionContext);
 
-    return (
-        <div
-            {...props}
-            style={{
-                display: open() == index ? 'block' : 'none',
-            }}
-            data-state={open() == index ? 'open' : 'hidden'}
-        />
-    )
-}
+  return (
+    <div
+      {...rest}
+      data-state={open() === others.index ? "open" : "hidden"}
+      style={{
+        display: open() === others.index ? "block" : "none",
+      }}
+    />
+  );
+};

@@ -23,40 +23,41 @@ bun add localui
 ```
 
 ## Roadmap:
+
 These is the list of Components I want to have at the very least in this library. (Inspired by BaseUI)
 
-- [ ] Accordion
-- [ ] Alert Dialog
-- [ ] Autocomplete
-- [ ] Avatar
-- [ ] Button
-- [ ] Checkbox
-- [ ] Checkbox Group
-- [ ] Collapsible
-- [ ] Combobox
-- [ ] Context Menu
-- [ ] Dialog
-- [ ] Field
-- [ ] Fieldset
-- [ ] Form
-- [ ] Input
-- [ ] Menu
-- [ ] Menubar
-- [ ] Meter
-- [ ] Navigation Menu
-- [ ] Number Field
-- [ ] Popover
-- [ ] Preview Card
-- [ ] Progress
-- [ ] Radio
-- [ ] Scroll Area
-- [ ] Select
-- [ ] Separator
-- [ ] Slider
-- [ ] Switch
-- [ ] Tabs
-- [ ] Toast
-- [ ] Toggle
-- [ ] Toggle Group
-- [ ] Toolbar
-- [ ] Tooltip
+-   [ ] Accordion (WIP)
+-   [ ] Alert Dialog
+-   [ ] Autocomplete
+-   [ ] Avatar
+-   [ ] Button (WIP)
+-   [ ] Checkbox
+-   [ ] Checkbox Group
+-   [ ] Collapsible
+-   [ ] Combobox
+-   [ ] Context Menu
+-   [ ] Dialog
+-   [ ] Field
+-   [ ] Fieldset
+-   [ ] Form
+-   [ ] Input
+-   [ ] Menu
+-   [ ] Menubar
+-   [ ] Meter
+-   [ ] Navigation Menu
+-   [ ] Number Field
+-   [ ] Popover
+-   [ ] Preview Card
+-   [ ] Progress
+-   [ ] Radio
+-   [ ] Scroll Area
+-   [ ] Select
+-   [ ] Separator
+-   [ ] Slider
+-   [ ] Switch
+-   [ ] Tabs
+-   [ ] Toast
+-   [ ] Toggle
+-   [ ] Toggle Group
+-   [ ] Toolbar
+-   [ ] Tooltip
