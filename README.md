@@ -22,8 +22,41 @@ pnpm add localui
 bun add localui
 ```
 
-Use it:
+## Roadmap:
+These is the list of Components I want to have at the very least in this library. (Inspired by BaseUI)
 
-```tsx
-import localui from 'localui'
-```
+- [ ] Accordion
+- [ ] Alert Dialog
+- [ ] Autocomplete
+- [ ] Avatar
+- [ ] Button
+- [ ] Checkbox
+- [ ] Checkbox Group
+- [ ] Collapsible
+- [ ] Combobox
+- [ ] Context Menu
+- [ ] Dialog
+- [ ] Field
+- [ ] Fieldset
+- [ ] Form
+- [ ] Input
+- [ ] Menu
+- [ ] Menubar
+- [ ] Meter
+- [ ] Navigation Menu
+- [ ] Number Field
+- [ ] Popover
+- [ ] Preview Card
+- [ ] Progress
+- [ ] Radio
+- [ ] Scroll Area
+- [ ] Select
+- [ ] Separator
+- [ ] Slider
+- [ ] Switch
+- [ ] Tabs
+- [ ] Toast
+- [ ] Toggle
+- [ ] Toggle Group
+- [ ] Toolbar
+- [ ] Tooltip
