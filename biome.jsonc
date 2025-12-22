@@ -1,7 +1,13 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": [
-    "ultracite/core",
-    "ultracite/solid"
-  ]
+  "files": {
+    "includes": ["src/**", "app/**"]
+  },
+  "formatter": {
+    "includes": ["src/**", "app/**"]
+  },
+  "linter": {
+    "includes": ["src/**", "app/**"]
+  },
+  "extends": ["ultracite/core", "ultracite/solid"]
 }
