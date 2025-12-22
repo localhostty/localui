@@ -47,9 +47,9 @@
         "test:client": "vitest",
         "test:ssr": "bun run test:client --mode ssr",
         "prepublishOnly": "bun build",
-        "format": "prettier --ignore-path .gitignore -w \"src/**/*.{js,ts,json,css,tsx,jsx}\" ",
+        "format": "prettier --ignore-path '.gitignore' --ignore-pattern 'app/*' -w \"src/**/*.{js,ts,json,css,tsx,jsx}\" ",
         "lint": "concurrently bun:lint:*",
-        "lint:code": "eslint --ignore-path .gitignore --max-warnings 0 src/**/*.{js,ts,tsx,jsx}",
+        "lint:code": "eslint --max-warnings 0 \"src/**/*.{js,ts,tsx,jsx}\"",
         "lint:types": "tsc --noEmit",
         "update-deps": "bun up -Li"
     },
