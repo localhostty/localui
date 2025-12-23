@@ -1,4 +1,5 @@
 import { type ComponentProps, splitProps } from "solid-js";
+import type { LocalUIForward } from "src/types/common";
 import { Slot } from "../../slot/slot";
 import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 
@@ -18,6 +19,5 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
   );
 }
 
-export interface CollapsiblePanelProps extends ComponentProps<"div"> {
-  forwardedRef?: HTMLDivElement;
-}
+export interface CollapsiblePanelProps
+  extends LocalUIForward<ComponentProps<"div">, HTMLDivElement> {}

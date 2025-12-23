@@ -8,11 +8,12 @@ import {
   type Setter,
   splitProps,
 } from "solid-js";
+import type { LocalUIForward } from "src/types/common";
 import { Slot } from "../../slot/slot";
 import { CollapsibleRootContext } from "./collapsible-root-context";
 
 export function CollapsibleRoot(
-  props: CollapsibleRoot.Props & { forwardedRef?: HTMLDivElement }
+  props: LocalUIForward<CollapsibleRoot.Props, HTMLDivElement>
 ) {
   const [local, rest] = splitProps(props, [
     "class",
