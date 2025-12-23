@@ -2,6 +2,8 @@ import { type Component, createSignal, Index } from "solid-js";
 // biome-ignore lint/performance/noNamespaceImport: You can ignore it here
 import * as Accordion from "../../src/accordion/accordion";
 import { Button } from "../../src/button/button";
+import { Collapsible } from "../../src/collapsible";
+import { Slot } from "../../src/slot/slot";
 
 const App: Component = () => {
   return (
@@ -11,6 +13,11 @@ const App: Component = () => {
         Test
       </Button>
       <DemoAccordion />
+      <Slot as="test">test</Slot>
+      <Collapsible.Root>
+        <Collapsible.Trigger>Test</Collapsible.Trigger>
+        <Collapsible.Panel>Content</Collapsible.Panel>
+      </Collapsible.Root>
     </div>
   );
 };

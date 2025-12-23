@@ -22,42 +22,47 @@ pnpm add localui
 bun add localui
 ```
 
-## Roadmap:
+## Roadmap
 
 These is the list of Components I want to have at the very least in this library. (Inspired by BaseUI)
 
--   [ ] Accordion (WIP)
--   [ ] Alert Dialog
--   [ ] Autocomplete
--   [ ] Avatar
--   [ ] Button (WIP)
--   [ ] Checkbox
--   [ ] Checkbox Group
--   [ ] Collapsible
--   [ ] Combobox
--   [ ] Context Menu
--   [ ] Dialog
--   [ ] Field
--   [ ] Fieldset
--   [ ] Form
--   [ ] Input
--   [ ] Menu
--   [ ] Menubar
--   [ ] Meter
--   [ ] Navigation Menu
--   [ ] Number Field
--   [ ] Popover
--   [ ] Preview Card
--   [ ] Progress
--   [ ] Radio
--   [ ] Scroll Area
--   [ ] Select
--   [ ] Separator
--   [ ] Slider
--   [ ] Switch
--   [ ] Tabs
--   [ ] Toast
--   [ ] Toggle
--   [ ] Toggle Group
--   [ ] Toolbar
--   [ ] Tooltip
+### v0.1.x Roadmap
+
+- [ ] Avatar
+- [ ] Button (WIP)
+- [ ] Checkbox
+- [ ] Collapsible (WIP)
+- [ ] Dialog
+- [ ] Input
+- [ ] Meter
+- [ ] Popover
+- [ ] Progress
+- [ ] Radio
+- [ ] Scroll Area
+- [ ] Separator
+- [ ] Slider
+- [ ] Switch
+- [ ] Tabs
+- [ ] Toast
+
+### v0.xx
+
+- [ ] Accordion
+- [ ] Alert Dialog
+- [ ] Autocomplete
+- [ ] Checkbox Group
+- [ ] Combobox
+- [ ] Context Menu
+- [ ] Field
+- [ ] Fieldset
+- [ ] Form
+- [ ] Menu
+- [ ] Menubar
+- [ ] Navigation Menu
+- [ ] Number Field
+- [ ] Preview Card
+- [ ] Select
+- [ ] Toggle
+- [ ] Toggle Group
+- [ ] Toolbar
+- [ ] Tooltip
