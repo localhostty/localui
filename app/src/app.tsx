@@ -31,7 +31,6 @@ export function DemoAccordion() {
     },
   ]);
   const [open, setOpen] = createSignal<number | null>(null);
-
   return (
     <Accordion.Root open={open} setOpen={setOpen}>
       <Index each={data()}>
