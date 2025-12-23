@@ -1,6 +1,4 @@
 import { type Component, createSignal, Index } from "solid-js";
-// biome-ignore lint/performance/noNamespaceImport: You can ignore it here
-import * as Accordion from "../../src/accordion/accordion";
 import { Button } from "../../src/button/button";
 import { Collapsible } from "../../src/collapsible";
 import { Slot } from "../../src/slot/slot";
@@ -37,20 +35,15 @@ export function DemoAccordion() {
       content: "Accordion 3 content",
     },
   ]);
-  const [open, setOpen] = createSignal<number | null>(null);
   return (
-    <Accordion.Root open={open} setOpen={setOpen}>
-      <Index each={data()}>
-        {(item, index) => (
-          <Accordion.Item data-index={index}>
-            <Accordion.Trigger index={index}>{item().title}</Accordion.Trigger>
-            <Accordion.Content index={index}>
-              {item().content}
-            </Accordion.Content>
-          </Accordion.Item>
-        )}
-      </Index>
-    </Accordion.Root>
+    <Index each={data()}>
+      {(item, _) => (
+        <Collapsible.Root>
+          <Collapsible.Trigger>{item().title}</Collapsible.Trigger>
+          <Collapsible.Panel>{item().content}</Collapsible.Panel>
+        </Collapsible.Root>
+      )}
+    </Index>
   );
 }
 

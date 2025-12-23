@@ -8,8 +8,9 @@ import {
   type Setter,
   splitProps,
 } from "solid-js";
-import type { LocalUIForward } from "src/types/common";
 import { Slot } from "../../slot/slot";
+import type { LocalUIForward } from "../../types/common";
+import { createUniqueLocalId } from "../../utils/common";
 import { CollapsibleRootContext } from "./collapsible-root-context";
 
 export function CollapsibleRoot(
@@ -25,16 +26,23 @@ export function CollapsibleRoot(
   ]);
   const [open, onOpenChange] = createSignal<boolean>(false);
   const disabled = createMemo(() => local.disabled?.() ?? false);
+  const id = createMemo(() => createUniqueLocalId());
 
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     open,
     onOpenChange,
     disabled,
+    internal_id: id,
   }));
 
   return (
     <CollapsibleRootContext.Provider value={contextValue()}>
-      <Slot as="div" {...rest} />
+      <Slot
+        as="div"
+        data-closed={open?.() ? undefined : ""}
+        data-open={open?.() ? "" : undefined}
+        {...rest}
+      />
     </CollapsibleRootContext.Provider>
   );
 }
@@ -51,6 +59,7 @@ export interface CollapsibleRootState {
    * @default false
    */
   disabled?: Accessor<boolean>;
+  internal_id?: Accessor<string>;
 }
 
 export interface CollapsibleRootProps
