@@ -7,7 +7,7 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
   const [local, others] = splitProps(props, ["forwardedRef"]);
   const { open, disabled, onOpenChange, internal_id } =
     useCollapsibleRootContext();
-  const controls = createMemo(() => (open?.() ? internal_id?.() : undefined));
+  const controls = createMemo(() => (open?.() ? internal_id() : undefined));
 
   return (
     <Slot

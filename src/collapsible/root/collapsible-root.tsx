@@ -31,12 +31,13 @@ export function CollapsibleRoot(
     onChange: local.onOpenChange,
   });
   const disabled = createMemo(() => local.disabled?.() ?? false);
+  const id = createMemo(() => createUniqueLocalId());
 
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     open,
     onOpenChange,
     disabled,
-    internal_id: createUniqueLocalId,
+    internal_id: id,
   }));
 
   return (

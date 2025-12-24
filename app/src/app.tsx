@@ -15,7 +15,7 @@ const App: Component = () => {
       <Slot as="test">test</Slot>
       <Collapsible.Root onOpenChange={setOpen} open={open}>
         <Collapsible.Trigger>Test</Collapsible.Trigger>
-        <Collapsible.Panel>Content</Collapsible.Panel>
+        <Collapsible.Panel keepMounted>Content</Collapsible.Panel>
       </Collapsible.Root>
     </div>
   );
