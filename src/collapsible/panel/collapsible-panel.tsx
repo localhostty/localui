@@ -1,5 +1,6 @@
-import { splitProps } from "solid-js";
-import { Presence } from "../../utils/use-presence";
+import { type ComponentProps, createMemo, splitProps } from "solid-js";
+import type { LocalUIForward } from "../../types/common";
+import { Presence } from "../../utils/presence";
 import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 
 export function CollapsiblePanel(props: CollapsiblePanelProps) {
@@ -9,11 +10,14 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
     "style",
   ]);
   const { open, internal_id } = useCollapsibleRootContext();
+  const keepMounted = createMemo(() => local.keepMounted ?? false);
 
   return (
     <Presence
       as="div"
       id={internal_id()}
+      keepMounted={keepMounted}
+      open={open}
       ref={local.forwardedRef}
       {...others}
       data-open=""
@@ -23,5 +27,5 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
 
 export interface CollapsiblePanelProps
   extends LocalUIForward<ComponentProps<"div">, HTMLDivElement> {
-  keepMounted?: true;
+  keepMounted?: boolean;
 }

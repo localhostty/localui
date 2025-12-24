@@ -23,6 +23,7 @@ export function CollapsibleRoot(
     "open",
     "onOpenChange",
     "forwardedRef",
+    "internal_id",
   ]);
   const defaultOpen = createMemo(() => local.defaultOpen?.() ?? false);
   const [open, onOpenChange] = useControllableState({
@@ -31,7 +32,7 @@ export function CollapsibleRoot(
     onChange: local.onOpenChange,
   });
   const disabled = createMemo(() => local.disabled?.() ?? false);
-  const id = createMemo(() => createUniqueLocalId());
+  const id = createMemo(() => local?.internal_id ?? createUniqueLocalId());
 
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     open,
@@ -65,7 +66,7 @@ export interface CollapsibleRootState {
    * @default false
    */
   disabled?: Accessor<boolean>;
-  internal_id?: Accessor<string>;
+  internal_id?: string;
 }
 
 export interface CollapsibleRootProps

@@ -2,44 +2,48 @@ import {
   type Accessor,
   createMemo,
   type JSX,
+  Match,
   Show,
+  Switch,
   splitProps,
 } from "solid-js";
 import { type ElementType, Slot, type SlotProps } from "../slot/slot";
 
 export type PresenceProps<T extends ElementType = "div"> = SlotProps<T> & {
   children: JSX.Element;
-  hidden: Accessor<boolean>;
-  keepMounted: Accessor<boolean>;
+  open: Accessor<boolean>;
+  keepMounted?: Accessor<boolean>;
 };
 
 export function Presence<T extends ElementType = "div">(
   props: PresenceProps<T>
 ) {
-  const [local, others] = splitProps(props, ["style", "hidden", "keepMounted"]);
+  const [local, others] = splitProps(props, ["style", "open", "keepMounted"]);
   const style = createMemo(() => {
     if (
       typeof local.style === "string" &&
-      local.keepMounted() &&
-      local.hidden()
+      local?.keepMounted() &&
+      !local?.open()
     ) {
       return `${local.style};display: none`;
     }
     if (
-      local.keepMounted() &&
+      local?.keepMounted() &&
       typeof local.style !== "string" &&
-      local.hidden()
+      !local?.open()
     ) {
       return { ...local.style, display: "none" };
     }
     return local.style;
   });
-  // @ts-expect-error
-  const element = <Slot {...others} style={style} />;
+  const element = <Slot {...others} style={style()} />;
 
-  return props.keepMounted() ? (
-    element
-  ) : (
-    <Show when={props.hidden()}>{element}</Show>
+  return (
+    <Switch fallback={<p>Fallback content</p>}>
+      <Match when={local?.keepMounted()}>{element}</Match>
+      <Match when={!local?.keepMounted()}>
+        <Show when={local?.open()}>{element}</Show>
+      </Match>
+    </Switch>
   );
 }

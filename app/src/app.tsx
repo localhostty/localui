@@ -5,17 +5,23 @@ import { Slot } from "../../src/slot/slot";
 
 const App: Component = () => {
   const [open, setOpen] = createSignal(false);
+  const [keepMounted, setKM] = createSignal(false);
   return (
     <div class="p-3">
       <p class="py-20 text-center text-4xl text-green-700">Hello tailwind!</p>
-      <Button class="rounded-xl border-2 border-neutral-500 px-3 py-2 hover:bg-neutral-200 active:bg-neutral-100">
+      <Button
+        class="rounded-xl border-2 border-neutral-500 px-3 py-2 hover:bg-neutral-200 active:bg-neutral-100"
+        onClick={() => setKM(!keepMounted())}
+      >
         Test
       </Button>
       <DemoAccordion />
       <Slot as="test">test</Slot>
       <Collapsible.Root onOpenChange={setOpen} open={open}>
         <Collapsible.Trigger>Test</Collapsible.Trigger>
-        <Collapsible.Panel keepMounted>Content</Collapsible.Panel>
+        <Collapsible.Panel keepMounted={keepMounted()}>
+          Content
+        </Collapsible.Panel>
       </Collapsible.Root>
     </div>
   );
