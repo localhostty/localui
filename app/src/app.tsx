@@ -4,6 +4,7 @@ import { Collapsible } from "../../src/collapsible";
 import { Slot } from "../../src/slot/slot";
 
 const App: Component = () => {
+  const [open, setOpen] = createSignal(false);
   return (
     <div class="p-3">
       <p class="py-20 text-center text-4xl text-green-700">Hello tailwind!</p>
@@ -12,7 +13,7 @@ const App: Component = () => {
       </Button>
       <DemoAccordion />
       <Slot as="test">test</Slot>
-      <Collapsible.Root>
+      <Collapsible.Root onOpenChange={setOpen} open={open}>
         <Collapsible.Trigger>Test</Collapsible.Trigger>
         <Collapsible.Panel>Content</Collapsible.Panel>
       </Collapsible.Root>

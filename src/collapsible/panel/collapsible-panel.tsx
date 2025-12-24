@@ -7,7 +7,6 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
   const [local, others] = splitProps(props, ["forwardedRef"]);
   const { open, internal_id } = useCollapsibleRootContext();
 
-  console.log("OPEN: ", open?.());
   return (
     <Show when={open?.()}>
       <Slot

@@ -4,13 +4,13 @@ import {
   type Accessor,
   type ComponentProps,
   createMemo,
-  createSignal,
   type Setter,
   splitProps,
 } from "solid-js";
 import { Slot } from "../../slot/slot";
 import type { LocalUIForward } from "../../types/common";
 import { createUniqueLocalId } from "../../utils/common";
+import { useControllableState } from "../../utils/use-controllable-state";
 import { CollapsibleRootContext } from "./collapsible-root-context";
 
 export function CollapsibleRoot(
@@ -24,15 +24,19 @@ export function CollapsibleRoot(
     "onOpenChange",
     "forwardedRef",
   ]);
-  const [open, onOpenChange] = createSignal<boolean>(false);
+  const defaultOpen = createMemo(() => local.defaultOpen?.() ?? false);
+  const [open, onOpenChange] = useControllableState({
+    prop: local.open,
+    defaultProp: defaultOpen,
+    onChange: local.onOpenChange,
+  });
   const disabled = createMemo(() => local.disabled?.() ?? false);
-  const id = createMemo(() => createUniqueLocalId());
 
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     open,
     onOpenChange,
     disabled,
-    internal_id: id,
+    internal_id: createUniqueLocalId,
   }));
 
   return (
@@ -41,6 +45,7 @@ export function CollapsibleRoot(
         as="div"
         data-closed={open?.() ? undefined : ""}
         data-open={open?.() ? "" : undefined}
+        ref={local.forwardedRef}
         {...rest}
       />
     </CollapsibleRootContext.Provider>
