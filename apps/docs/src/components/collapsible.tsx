@@ -1,10 +1,9 @@
-import { Collapsible } from "@local/ui/collapsible";
+import { clientOnly } from "@solidjs/start";
+
+const CollapsibleDemoClient = clientOnly(
+  () => import("./collapsible-demo-client"),
+);
 
 export function CollapsibleDemo() {
-  return (
-    <Collapsible.Root>
-      <Collapsible.Trigger>Press here!</Collapsible.Trigger>
-      <Collapsible.Panel>And this text will be shown!</Collapsible.Panel>
-    </Collapsible.Root>
-  );
+  return <CollapsibleDemoClient />;
 }
