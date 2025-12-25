@@ -1,17 +1,26 @@
-import { type ComponentProps, createEffect, createMemo, splitProps } from "solid-js";
+import {
+  type ComponentProps,
+  createEffect,
+  createMemo,
+  splitProps,
+} from "solid-js";
 import type { LocalUIForward } from "../../types/common";
 import { Presence } from "../../utils/presence";
 import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 
 export function CollapsiblePanel(props: CollapsiblePanelProps) {
-  const [local, others] = splitProps(props, ["forwardedRef", "keepMounted", "id"]);
+  const [local, others] = splitProps(props, [
+    "forwardedRef",
+    "keepMounted",
+    "id",
+  ]);
   const { open, panelId, setPanelId } = useCollapsibleRootContext();
   const keepMounted = createMemo(() => local.keepMounted ?? false);
   createEffect(() => {
-    if(local.id && local.id !== panelId()) {
-      setPanelId(local.id)
+    if (local.id && local.id !== panelId()) {
+      setPanelId(local.id);
     }
-  })
+  });
 
   return (
     <Presence

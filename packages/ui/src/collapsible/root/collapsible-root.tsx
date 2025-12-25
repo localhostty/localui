@@ -32,14 +32,14 @@ export function CollapsibleRoot(
     onChange: local.onOpenChange,
   });
   const disabled = createMemo(() => local.disabled?.() ?? false);
-  const [panelId, setPanelId] = createSignal(createUniqueLocalId())
+  const [panelId, setPanelId] = createSignal(createUniqueLocalId());
 
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     open,
     onOpenChange,
     disabled,
     panelId: panelId,
-    setPanelId: setPanelId
+    setPanelId: setPanelId,
   }));
 
   return (
