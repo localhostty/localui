@@ -6,7 +6,10 @@ import {
 } from "solid-js";
 import type { CollapsibleRoot } from "./collapsible-root";
 
-export interface CollapsibleRootContext extends Omit<CollapsibleRoot.Props, 'internal_id'> {
+export interface CollapsibleRootContext extends Omit<
+  CollapsibleRoot.Props,
+  "internal_id"
+> {
   open: Accessor<boolean>;
   onOpenChange: Setter<boolean>;
   disabled?: Accessor<boolean>;
@@ -21,7 +24,7 @@ export function useCollapsibleRootContext() {
   const context = useContext(CollapsibleRootContext);
   if (context === undefined) {
     throw new Error(
-      "LocalUI: CollapsibleRootContext is missing. Collapsible parts must be placed within the <Collapsible.Root>."
+      "LocalUI: CollapsibleRootContext is missing. Collapsible parts must be placed within the <Collapsible.Root>.",
     );
   }
 

@@ -25,7 +25,9 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
   );
 }
 
-export interface CollapsiblePanelProps
-  extends LocalUIForward<ComponentProps<"div">, HTMLDivElement> {
+export interface CollapsiblePanelProps extends LocalUIForward<
+  ComponentProps<"div">,
+  HTMLDivElement
+> {
   keepMounted?: boolean;
 }

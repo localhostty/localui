@@ -16,7 +16,7 @@ export type PresenceProps<T extends ElementType = "div"> = SlotProps<T> & {
 };
 
 export function Presence<T extends ElementType = "div">(
-  props: PresenceProps<T>
+  props: PresenceProps<T>,
 ) {
   const [local, others] = splitProps(props, ["style", "open", "keepMounted"]);
   const style = createMemo(() => {

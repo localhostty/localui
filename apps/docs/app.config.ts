@@ -15,8 +15,7 @@ export default defineConfig(
     {
       title: "LocalUI",
       titleTemplate: ":title - LocalUI",
-      description:
-        "Primitive UI Library for SolidJS",
+      description: "Primitive UI Library for SolidJS",
       themeConfig: {
         sidebar: {
           "/": {
@@ -43,6 +42,6 @@ export default defineConfig(
           },
         },
       },
-    }
-  )
+    },
+  ),
 );

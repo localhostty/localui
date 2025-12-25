@@ -25,7 +25,7 @@ export function useControllableState<T>({
     onChange,
   });
   const value = createMemo(() =>
-    isControlled() && prop ? prop() : uncontrolledValue()
+    isControlled() && prop ? prop() : uncontrolledValue(),
   );
 
   // @ts-expect-error

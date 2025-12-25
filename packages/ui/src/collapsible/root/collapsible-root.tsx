@@ -14,7 +14,7 @@ import { useControllableState } from "../../utils/use-controllable-state";
 import { CollapsibleRootContext } from "./collapsible-root-context";
 
 export function CollapsibleRoot(
-  props: LocalUIForward<CollapsibleRoot.Props, HTMLDivElement>
+  props: LocalUIForward<CollapsibleRoot.Props, HTMLDivElement>,
 ) {
   const [local, rest] = splitProps(props, [
     "class",
@@ -70,8 +70,7 @@ export interface CollapsibleRootState {
 }
 
 export interface CollapsibleRootProps
-  extends ComponentProps<"div">,
-    CollapsibleRoot.State {
+  extends ComponentProps<"div">, CollapsibleRoot.State {
   /**
    * Whether the collapsible panel is currently open.
    *
