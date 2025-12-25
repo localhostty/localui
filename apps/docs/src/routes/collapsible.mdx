@@ -11,18 +11,24 @@ import { CollapsibleDemo } from "../components/collapsible";
     <CollapsibleDemo />
   </div>
   <div>
-  Code:
-  <pre>
-    ```HTML
-    <Collapsible.Root>
-      <Collapsible.Trigger style="width: 250px;">Press here!</Collapsible.Trigger>
-      <Collapsible.Panel keepMounted={true} style="width: 250px; border: 2px solid black; padding: 4px; margin-top: 4px;">And this text will be shown!</Collapsible.Panel>
-    </Collapsible.Root>
-    ```
-  </pre>
+    Code:
+    <pre>
+      ```
+      <Collapsible.Root>
+        <Collapsible.Trigger style="width: 250px;">
+          Press here!
+        </Collapsible.Trigger>
+        <Collapsible.Panel
+          keepMounted={true}
+          style="width: 250px; border: 2px solid black; padding: 4px; margin-top: 4px;"
+        >
+          And this text will be shown!
+        </Collapsible.Panel>
+      </Collapsible.Root>
+      ```
+    </pre>
   </div>
 </div>
-
 
 ## API
 
@@ -31,28 +37,54 @@ import { CollapsibleDemo } from "../components/collapsible";
 <table>
   <tbody style="border: 2px solid black; padding: 2px;">
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">defaultOpen?: boolean (default: false)</td>
-      <td style="border: 2px solid black; padding: 2px;">Default State of the Collapsible</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        defaultOpen?: boolean (default: false)
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Default State of the Collapsible
+      </td>
     </tr>
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">open?: boolean (default: false)</td>
-      <td style="border: 2px solid black; padding: 2px;">Current State of the Collapsible</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        open?: boolean (default: false)
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Current State of the Collapsible
+      </td>
     </tr>
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">onOpenChange?: Setter(boolean)</td>
-      <td style="border: 2px solid black; padding: 2px;">Method to toggle open state</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        onOpenChange?: Setter(boolean)
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Method to toggle open state
+      </td>
     </tr>
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">disabled?: boolean (default: false)</td>
-      <td style="border: 2px solid black; padding: 2px;">Whether to disable the collapsible element.</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        disabled?: boolean (default: false)
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Whether to disable the collapsible element.
+      </td>
     </tr>
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">forwardedRef?: HTMLDivElement</td>
-      <td style="border: 2px solid black; padding: 2px;">Ref to the root div element</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        forwardedRef?: HTMLDivElement
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Ref to the root div element
+      </td>
     </tr>
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">internal_id?: string (default: generated automatically)</td>
-      <td style="border: 2px solid black; padding: 2px;">Identifier of the CollapsiblePanel (should be unique). This is usually internally generated and we advise to not modify it unless 100% necessary.</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        internal_id?: string (default: generated automatically)
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Identifier of the CollapsiblePanel (should be unique). This is usually
+        internally generated and we advise to not modify it unless 100%
+        necessary.
+      </td>
     </tr>
   </tbody>
 </table>
@@ -62,12 +94,21 @@ import { CollapsibleDemo } from "../components/collapsible";
 <table>
   <tbody style="border: 2px solid black; padding: 2px;">
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">forwardedRef?: HTMLButtonElement | HTMLDivElement</td>
-      <td style="border: 2px solid black; padding: 2px;">Ref to the root button/div element</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        forwardedRef?: HTMLButtonElement | HTMLDivElement
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Ref to the root button/div element
+      </td>
     </tr>
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">nativeButton?: boolean (default: true)</td>
-      <td style="border: 2px solid black; padding: 2px;">Whether to use a semantic HTML &lt;button&gt; Element or a &lt;div&gt; with type button.</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        nativeButton?: boolean (default: true)
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Whether to use a semantic HTML &lt;button&gt; Element or a &lt;div&gt;
+        with type button.
+      </td>
     </tr>
   </tbody>
 </table>
@@ -77,14 +118,20 @@ import { CollapsibleDemo } from "../components/collapsible";
 <table>
   <tbody style="border: 2px solid black; padding: 2px;">
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">forwardedRef?: HTMLDivElement</td>
-      <td style="border: 2px solid black; padding: 2px;">Ref to the root div element</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        forwardedRef?: HTMLDivElement
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Ref to the root div element
+      </td>
     </tr>
     <tr style="border: 2px solid black; padding: 2px;">
-      <td style="border: 2px solid black; padding: 2px;">keepMounted?: boolean (default: false)</td>
-      <td style="border: 2px solid black; padding: 2px;">Whether to remove the Element from the DOM entirely or just hide it.</td>
+      <td style="border: 2px solid black; padding: 2px;">
+        keepMounted?: boolean (default: false)
+      </td>
+      <td style="border: 2px solid black; padding: 2px;">
+        Whether to remove the Element from the DOM entirely or just hide it.
+      </td>
     </tr>
   </tbody>
 </table>
-
-

@@ -13,7 +13,8 @@ export interface CollapsibleRootContext extends Omit<
   open: Accessor<boolean>;
   onOpenChange: Setter<boolean>;
   disabled?: Accessor<boolean>;
-  internal_id: Accessor<string>;
+  panelId: Accessor<string>;
+  setPanelId: Setter<string>;
 }
 
 export const CollapsibleRootContext = createContext<

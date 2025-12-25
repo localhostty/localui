@@ -5,9 +5,9 @@ import { Button } from "../../button/button";
 
 export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
   const [local, others] = splitProps(props, ["forwardedRef", "nativeButton"]);
-  const { open, disabled, onOpenChange, internal_id } =
+  const { open, disabled, onOpenChange, panelId } =
     useCollapsibleRootContext();
-  const controls = createMemo(() => (open?.() ? internal_id() : undefined));
+  const controls = createMemo(() => (open?.() ? panelId() : undefined));
   const nativeButton = createMemo(() => local?.nativeButton);
 
   return (

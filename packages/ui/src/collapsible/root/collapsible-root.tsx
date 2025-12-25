@@ -4,6 +4,7 @@ import {
   type Accessor,
   type ComponentProps,
   createMemo,
+  createSignal,
   type Setter,
   splitProps,
 } from "solid-js";
@@ -23,7 +24,6 @@ export function CollapsibleRoot(
     "open",
     "onOpenChange",
     "forwardedRef",
-    "internal_id",
   ]);
   const defaultOpen = createMemo(() => local.defaultOpen?.() ?? false);
   const [open, onOpenChange] = useControllableState({
@@ -32,13 +32,14 @@ export function CollapsibleRoot(
     onChange: local.onOpenChange,
   });
   const disabled = createMemo(() => local.disabled?.() ?? false);
-  const id = createMemo(() => local?.internal_id ?? createUniqueLocalId());
+  const [panelId, setPanelId] = createSignal(createUniqueLocalId())
 
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     open,
     onOpenChange,
     disabled,
-    internal_id: id,
+    panelId: panelId,
+    setPanelId: setPanelId
   }));
 
   return (
@@ -66,7 +67,6 @@ export interface CollapsibleRootState {
    * @default false
    */
   disabled?: Accessor<boolean>;
-  internal_id?: string;
 }
 
 export interface CollapsibleRootProps
