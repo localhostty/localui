@@ -1,36 +1,33 @@
 name: Build and Test
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 2
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
-        steps:
-            - uses: pnpm/action-setup@v4
-              with:
-                version: 9
+      - uses: pnpm/action-setup@v4
 
-            - name: Install dependencies
-              run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-            - name: Build
-              run: pnpm build
+      - name: Build
+        run: pnpm build
 
-            # - name: Test
-            #   run: pnpm test
-            #   env:
-            #       CI: true
+      # - name: Test
+      #   run: pnpm test
+      #   env:
+      #       CI: true
 
-            - name: Lint
-              run: pnpm lint
+      - name: Lint
+        run: pnpm lint
