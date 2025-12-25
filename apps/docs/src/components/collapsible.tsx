@@ -6,5 +6,5 @@ export function CollapsibleDemo() {
       <Collapsible.Trigger>Press here!</Collapsible.Trigger>
       <Collapsible.Panel>And this text will be shown!</Collapsible.Panel>
     </Collapsible.Root>
-  )
+  );
 }

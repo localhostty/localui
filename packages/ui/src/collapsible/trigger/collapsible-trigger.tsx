@@ -25,5 +25,7 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
   );
 }
 
-export interface CollapsibleTriggerProps
-  extends LocalUIForward<ComponentProps<"button">, HTMLButtonElement> {}
+export interface CollapsibleTriggerProps extends LocalUIForward<
+  ComponentProps<"button">,
+  HTMLButtonElement
+> {}
