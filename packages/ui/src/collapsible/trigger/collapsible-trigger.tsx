@@ -30,5 +30,5 @@ export interface CollapsibleTriggerProps extends LocalUIForward<
   ComponentProps<"button">,
   HTMLButtonElement
 > {
-  nativeButton?: boolean
+  nativeButton?: boolean;
 }

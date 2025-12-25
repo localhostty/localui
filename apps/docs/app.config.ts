@@ -29,7 +29,8 @@ export default defineConfig(
                     link: "/about",
                   },
                 ],
-              }, {
+              },
+              {
                 title: "Primitives",
                 collapsed: false,
                 items: [

@@ -4,10 +4,7 @@ import { Presence } from "../../utils/presence";
 import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 
 export function CollapsiblePanel(props: CollapsiblePanelProps) {
-  const [local, others] = splitProps(props, [
-    "forwardedRef",
-    "keepMounted",
-  ]);
+  const [local, others] = splitProps(props, ["forwardedRef", "keepMounted"]);
   const { open, internal_id } = useCollapsibleRootContext();
   const keepMounted = createMemo(() => local.keepMounted ?? false);
 
