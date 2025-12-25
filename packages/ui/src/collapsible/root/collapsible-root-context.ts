@@ -6,7 +6,7 @@ import {
 } from "solid-js";
 import type { CollapsibleRoot } from "./collapsible-root";
 
-export interface CollapsibleRootContext extends CollapsibleRoot.Props {
+export interface CollapsibleRootContext extends Omit<CollapsibleRoot.Props, 'internal_id'> {
   open: Accessor<boolean>;
   onOpenChange: Setter<boolean>;
   disabled?: Accessor<boolean>;
