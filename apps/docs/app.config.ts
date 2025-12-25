@@ -25,16 +25,21 @@ export default defineConfig(
                 collapsed: false,
                 items: [
                   {
-                    title: "Home",
-                    link: "/",
-                  },
-                  {
                     title: "About",
                     link: "/about",
                   },
+                ],
+              }, {
+                title: "Primitives",
+                collapsed: false,
+                items: [
                   {
                     title: "Collapsible",
                     link: "/collapsible",
+                  },
+                  {
+                    title: "Button",
+                    link: "/button",
                   },
                 ],
               },

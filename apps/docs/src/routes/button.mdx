@@ -1,0 +1,41 @@
+---
+title: Button
+---
+
+import { Button } from "@local/ui/button";
+
+# Button Primitive
+
+<div style="">
+  <div style="border: 2px solid black; padding: 12px; height: 112px; display: flex;flex-direction: column; align-items: center; justify-content: center">
+    <Button onClick="alert()">Native Button</Button>
+    <Button nativeButton={false} onClick="alert()">Non Native Button</Button>
+  </div>
+  <div>
+  Code:
+  <pre>
+    ```HTML
+    <Button>...</Button> // Native Button
+    <Button nativeButton={false}>...</Button> // Div with type button
+    ```
+  </pre>
+  </div>
+</div>
+
+
+## API
+
+### Button
+
+<table>
+  <tbody>
+    <tr>
+      <td>forwardedRef?: HTMLButtonElement | HTMLDivElement</td>
+      <td>Ref to the root button/div element</td>
+    </tr>
+    <tr>
+      <td>nativeButton?: boolean (default: true)</td>
+      <td>Whether to use a semantic HTML &lt;button&gt; Element or a &lt;div&gt; with type button.</td>
+    </tr>
+  </tbody>
+</table>

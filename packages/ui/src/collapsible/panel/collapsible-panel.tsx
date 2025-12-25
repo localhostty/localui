@@ -7,7 +7,6 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
   const [local, others] = splitProps(props, [
     "forwardedRef",
     "keepMounted",
-    "style",
   ]);
   const { open, internal_id } = useCollapsibleRootContext();
   const keepMounted = createMemo(() => local.keepMounted ?? false);
