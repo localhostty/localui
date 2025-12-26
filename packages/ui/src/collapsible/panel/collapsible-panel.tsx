@@ -17,8 +17,10 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
   createEffect(() => {
     if (local.id && local.id !== panelId()) {
       setPanelId(local.id);
+    if (local.id && local.id !== panelId()) {
+      setPanelId(local.id);
     }
-  });
+  }});
 
   return (
     <Presence
