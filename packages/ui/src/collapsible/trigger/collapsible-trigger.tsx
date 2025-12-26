@@ -1,4 +1,9 @@
-import { type ComponentProps, createEffect, createMemo, splitProps } from "solid-js";
+import {
+  type ComponentProps,
+  createEffect,
+  createMemo,
+  splitProps,
+} from "solid-js";
 import { Button } from "../../button/button";
 import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 import { useKey } from "../../utils/use-key";
@@ -8,9 +13,10 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
     "nativeButton",
     "disabled",
     "id",
-    "ref"
+    "ref",
   ]);
-  const { open, disabled, onOpenChange, panelId, triggerId, setTriggerId } = useCollapsibleRootContext();
+  const { open, disabled, onOpenChange, panelId, triggerId, setTriggerId } =
+    useCollapsibleRootContext();
   const controls = createMemo(() => (open() ? panelId() : undefined));
   const nativeButton = createMemo(() => local?.nativeButton);
   const buttonDisabled = createMemo(() => local.disabled ?? disabled());
@@ -19,7 +25,11 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
       setTriggerId(local.id);
     }
   });
-  useKey<HTMLButtonElement>({key: "Escape", action: () => onOpenChange(false), ref: local.ref})
+  useKey<HTMLButtonElement>({
+    key: "Escape",
+    action: () => onOpenChange(false),
+    ref: local.ref,
+  });
 
   return (
     <Button
@@ -38,7 +48,6 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
   );
 }
 
-export interface CollapsibleTriggerProps
-  extends ComponentProps<"button"> {
+export interface CollapsibleTriggerProps extends ComponentProps<"button"> {
   nativeButton?: boolean;
 }

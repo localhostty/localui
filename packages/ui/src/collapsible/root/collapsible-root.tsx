@@ -13,9 +13,7 @@ import { createUniqueLocalId } from "../../utils/common";
 import { useControllableState } from "../../utils/use-controllable-state";
 import { CollapsibleRootContext } from "./collapsible-root-context";
 
-export function CollapsibleRoot(
-  props: CollapsibleRoot.Props
-) {
+export function CollapsibleRoot(props: CollapsibleRoot.Props) {
   const [local, rest] = splitProps(props, [
     "defaultOpen",
     "disabled",
@@ -40,7 +38,7 @@ export function CollapsibleRoot(
     panelId,
     setPanelId,
     triggerId,
-    setTriggerId
+    setTriggerId,
   }));
 
   return (
@@ -70,8 +68,7 @@ export interface CollapsibleRootState {
 }
 
 export interface CollapsibleRootProps
-  extends ComponentProps<"div">,
-    CollapsibleRoot.State {
+  extends ComponentProps<"div">, CollapsibleRoot.State {
   /**
    * Whether the collapsible panel is currently open.
    *

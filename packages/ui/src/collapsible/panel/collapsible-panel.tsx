@@ -8,19 +8,18 @@ import { Presence } from "../../utils/presence";
 import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 
 export function CollapsiblePanel(props: CollapsiblePanelProps) {
-  const [local, others] = splitProps(props, [
-    "keepMounted",
-    "id",
-  ]);
-  const { open, panelId, setPanelId, disabled, triggerId } = useCollapsibleRootContext();
+  const [local, others] = splitProps(props, ["keepMounted", "id"]);
+  const { open, panelId, setPanelId, disabled, triggerId } =
+    useCollapsibleRootContext();
   const keepMounted = createMemo(() => local.keepMounted ?? false);
   createEffect(() => {
     if (local.id && local.id !== panelId()) {
       setPanelId(local.id);
-    if (local.id && local.id !== panelId()) {
-      setPanelId(local.id);
+      if (local.id && local.id !== panelId()) {
+        setPanelId(local.id);
+      }
     }
-  }});
+  });
 
   return (
     <Presence
@@ -39,7 +38,6 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
   );
 }
 
-export interface CollapsiblePanelProps
-  extends ComponentProps<"div"> {
+export interface CollapsiblePanelProps extends ComponentProps<"div"> {
   keepMounted?: boolean;
 }
