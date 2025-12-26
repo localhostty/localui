@@ -1,34 +1,31 @@
 import {
   type ComponentProps,
-  splitProps,
+  createMemo,
   Match,
   Switch,
-  createMemo,
+  splitProps,
 } from "solid-js";
-import { Slot } from "src/slot/slot";
-import { LocalUIForward } from "src/types/common";
+import { Slot } from "../slot/slot";
 
 export function Button(props: ButtonProps) {
-  const [local, others] = splitProps(props, ["nativeButton", "forwardedRef"]);
+  const [local, others] = splitProps(props, ["nativeButton"]);
   const nativeButton = createMemo(() =>
-    local?.nativeButton === undefined ? true : local.nativeButton,
+    local?.nativeButton === undefined ? true : local.nativeButton
   );
 
   return (
     <Switch>
       <Match when={nativeButton()}>
-        <Slot as="button" {...others} />
+        <Slot as="button"  {...others} />
       </Match>
       <Match when={!nativeButton()}>
-        <Slot as="div" type="button" {...others} />
+        <Slot as="div" role="button" tabindex={0} {...others} />
       </Match>
     </Switch>
   );
 }
 
-export interface ButtonProps extends LocalUIForward<
-  ComponentProps<"button">,
-  HTMLButtonElement
-> {
+export interface ButtonProps
+  extends ComponentProps<"button"> {
   nativeButton?: boolean;
 }

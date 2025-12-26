@@ -27,7 +27,7 @@ export const Root = (props: AccordionRootProps) => {
       open: others.open,
       setOpen: others.setOpen,
     }),
-    undefined,
+    undefined
   );
 
   return (

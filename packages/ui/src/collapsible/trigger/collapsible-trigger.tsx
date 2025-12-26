@@ -1,34 +1,44 @@
-import { type ComponentProps, createMemo, splitProps } from "solid-js";
-import type { LocalUIForward } from "src/types/common";
-import { useCollapsibleRootContext } from "../root/collapsible-root-context";
+import { type ComponentProps, createEffect, createMemo, splitProps } from "solid-js";
 import { Button } from "../../button/button";
+import { useCollapsibleRootContext } from "../root/collapsible-root-context";
+import { useKey } from "../../utils/use-key";
 
 export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
-  const [local, others] = splitProps(props, ["forwardedRef", "nativeButton"]);
-  const { open, disabled, onOpenChange, panelId } =
-    useCollapsibleRootContext();
-  const controls = createMemo(() => (open?.() ? panelId() : undefined));
+  const [local, others] = splitProps(props, [
+    "nativeButton",
+    "disabled",
+    "id",
+    "ref"
+  ]);
+  const { open, disabled, onOpenChange, panelId, triggerId, setTriggerId } = useCollapsibleRootContext();
+  const controls = createMemo(() => (open() ? panelId() : undefined));
   const nativeButton = createMemo(() => local?.nativeButton);
+  const buttonDisabled = createMemo(() => local.disabled ?? disabled());
+  createEffect(() => {
+    if (local.id && local.id !== triggerId()) {
+      setTriggerId(local.id);
+    }
+  });
+  useKey<HTMLButtonElement>({key: "Escape", action: () => onOpenChange(false), ref: local.ref})
 
   return (
     <Button
-      nativeButton={nativeButton()}
       aria-controls={controls()}
-      aria-disabled={disabled?.() ?? false}
-      aria-expanded={open?.()}
-      onClick={() => onOpenChange?.(!open?.())}
-      ref={local.forwardedRef}
-      tabindex={0}
+      aria-expanded={open()}
+      disabled={buttonDisabled()}
+      aria-disabled={buttonDisabled()}
+      nativeButton={nativeButton()}
+      onClick={() => onOpenChange?.(!open())}
       type="button"
+      id={triggerId()}
+      ref={local.ref}
       {...others}
-      data-panel-open={open?.() ? "" : undefined}
+      data-panel-open={open() ? "" : undefined}
     />
   );
 }
 
-export interface CollapsibleTriggerProps extends LocalUIForward<
-  ComponentProps<"button">,
-  HTMLButtonElement
-> {
+export interface CollapsibleTriggerProps
+  extends ComponentProps<"button"> {
   nativeButton?: boolean;
 }

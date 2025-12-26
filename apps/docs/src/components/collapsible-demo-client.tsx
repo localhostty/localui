@@ -1,6 +1,4 @@
-import { Button } from "@local/ui/button";
 import { Collapsible } from "@local/ui/collapsible";
-import { createSignal } from "solid-js"
 
 export default function CollapsibleDemoClient() {
   return (

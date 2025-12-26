@@ -9,7 +9,7 @@ import {
 } from "solid-js";
 
 interface UseControllableStateParams<T> {
-  prop?: Accessor<T>;
+  prop?: Accessor<T | undefined>;
   defaultProp: Accessor<T>;
   onChange?: (value: T) => void;
 }
@@ -19,19 +19,19 @@ export function useControllableState<T>({
   defaultProp,
   onChange,
 }: UseControllableStateParams<T>): [Accessor<T>, Setter<T>] {
-  const isControlled = createMemo(() => prop !== undefined);
+  const isControlled = createMemo(() => prop?.() !== undefined);
   const [uncontrolledValue, setUncontrolledValue] = useUncontrolledState({
     defaultProp,
     onChange,
   });
   const value = createMemo(() =>
-    isControlled() && prop ? prop() : uncontrolledValue(),
+    isControlled() ? prop!()! : uncontrolledValue()
   );
 
   // @ts-expect-error
   const setValue: Setter<T> = (value) => {
     if (isControlled()) {
-      const currentValue = prop!();
+      const currentValue = prop!()!;
       const newValue = isFunction(value) ? (value(currentValue) as any) : value;
 
       if (newValue !== currentValue && onChange) {

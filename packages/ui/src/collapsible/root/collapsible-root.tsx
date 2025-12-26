@@ -9,46 +9,46 @@ import {
   splitProps,
 } from "solid-js";
 import { Slot } from "../../slot/slot";
-import type { LocalUIForward } from "../../types/common";
 import { createUniqueLocalId } from "../../utils/common";
 import { useControllableState } from "../../utils/use-controllable-state";
 import { CollapsibleRootContext } from "./collapsible-root-context";
 
 export function CollapsibleRoot(
-  props: LocalUIForward<CollapsibleRoot.Props, HTMLDivElement>,
+  props: CollapsibleRoot.Props
 ) {
   const [local, rest] = splitProps(props, [
-    "class",
     "defaultOpen",
     "disabled",
     "open",
     "onOpenChange",
-    "forwardedRef",
   ]);
-  const defaultOpen = createMemo(() => local.defaultOpen?.() ?? false);
-  const [open, onOpenChange] = useControllableState({
-    prop: local.open,
+  const defaultOpen = createMemo(() => local.defaultOpen ?? false);
+  const disabled = createMemo(() => local.disabled ?? false);
+  const openProp = createMemo(() => local.open);
+  const [open, onOpenChange] = useControllableState<boolean>({
+    prop: openProp,
     defaultProp: defaultOpen,
     onChange: local.onOpenChange,
   });
-  const disabled = createMemo(() => local.disabled?.() ?? false);
-  const [panelId, setPanelId] = createSignal(createUniqueLocalId())
+  const [panelId, setPanelId] = createSignal(createUniqueLocalId());
+  const [triggerId, setTriggerId] = createSignal(createUniqueLocalId());
 
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     open,
     onOpenChange,
     disabled,
-    panelId: panelId,
-    setPanelId: setPanelId
+    panelId,
+    setPanelId,
+    triggerId,
+    setTriggerId
   }));
 
   return (
     <CollapsibleRootContext.Provider value={contextValue()}>
       <Slot
         as="div"
-        data-closed={open?.() ? undefined : ""}
-        data-open={open?.() ? "" : undefined}
-        ref={local.forwardedRef}
+        data-closed={open() ? undefined : ""}
+        data-open={open() ? "" : undefined}
         {...rest}
       />
     </CollapsibleRootContext.Provider>
@@ -61,29 +61,30 @@ export interface CollapsibleRootState {
    *
    * To render an uncontrolled collapsible, use the `defaultOpen` prop instead.
    */
-  open?: Accessor<boolean>;
+  open?: boolean;
   /**
    * Whether the component should ignore user interaction.
    * @default false
    */
-  disabled?: Accessor<boolean>;
+  disabled?: boolean;
 }
 
 export interface CollapsibleRootProps
-  extends ComponentProps<"div">, CollapsibleRoot.State {
+  extends ComponentProps<"div">,
+    CollapsibleRoot.State {
   /**
    * Whether the collapsible panel is currently open.
    *
    * To render an uncontrolled collapsible, use the `defaultOpen` prop instead.
    */
-  open?: Accessor<boolean>;
+  open?: boolean;
   /**
    * Whether the collapsible panel is initially open.
    *
    * To render a controlled collapsible, use the `open` prop instead.
    * @default false
    */
-  defaultOpen?: Accessor<boolean>;
+  defaultOpen?: boolean;
   /**
    * Event handler called when the panel is opened or closed.
    */
@@ -92,7 +93,7 @@ export interface CollapsibleRootProps
    * Whether the component should ignore user interaction.
    * @default false
    */
-  disabled?: Accessor<boolean>;
+  disabled?: boolean;
 }
 
 export namespace CollapsibleRoot {
