@@ -15,7 +15,7 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
     "id",
     "ref",
   ]);
-  const { open, disabled, onOpenChange, panelId, triggerId, setTriggerId } =
+  const { open, disabled, onOpenChange, panelId, triggerId, setTriggerId, handleTrigger } =
     useCollapsibleRootContext();
   const controls = createMemo(() => (open() ? panelId() : undefined));
   const nativeButton = createMemo(() => local?.nativeButton);
@@ -31,6 +31,8 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
     ref: local.ref,
   });
 
+  createEffect(() => console.log("TRIGGER OPEN: ", open()))
+
   return (
     <Button
       aria-controls={controls()}
@@ -38,7 +40,7 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
       disabled={buttonDisabled()}
       aria-disabled={buttonDisabled()}
       nativeButton={nativeButton()}
-      onClick={() => onOpenChange?.(!open())}
+      onClick={handleTrigger}
       type="button"
       id={triggerId()}
       ref={local.ref}

@@ -3,6 +3,7 @@
 import {
   type Accessor,
   type ComponentProps,
+  createEffect,
   createMemo,
   createSignal,
   type Setter,
@@ -12,6 +13,7 @@ import { Slot } from "../../slot/slot";
 import { createUniqueLocalId } from "../../utils/common";
 import { useControllableState } from "../../utils/use-controllable-state";
 import { CollapsibleRootContext } from "./collapsible-root-context";
+import { useCollapsibleRoot } from "./use-collapsible-root";
 
 export function CollapsibleRoot(props: CollapsibleRoot.Props) {
   const [local, rest] = splitProps(props, [
@@ -23,22 +25,29 @@ export function CollapsibleRoot(props: CollapsibleRoot.Props) {
   const defaultOpen = createMemo(() => local.defaultOpen ?? false);
   const disabled = createMemo(() => local.disabled ?? false);
   const openProp = createMemo(() => local.open);
-  const [open, onOpenChange] = useControllableState<boolean>({
-    prop: openProp,
-    defaultProp: defaultOpen,
-    onChange: local.onOpenChange,
-  });
+  // const [open, onOpenChange] = useControllableState<boolean>({
+  //   prop: openProp,
+  //   defaultProp: defaultOpen,
+  //   onChange: local.onOpenChange,
+  // });
   const [panelId, setPanelId] = createSignal(createUniqueLocalId());
   const [triggerId, setTriggerId] = createSignal(createUniqueLocalId());
 
+  const collapsible = useCollapsibleRoot({
+    open: openProp,
+    defaultOpen,
+    onOpenChange: local.onOpenChange,
+    disabled
+  });
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
-    open,
-    onOpenChange,
+    ...collapsible,
+    onOpenChange: collapsible.setOpen,
     disabled,
     panelId,
     setPanelId,
     triggerId,
     setTriggerId,
+
   }));
 
   return (
