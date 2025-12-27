@@ -62,7 +62,7 @@ class Scheduler {
      * timers are teared, which leaves `isScheduled` set, but won't run our `tick()`. */
     const didRAFChange =
       // @ts-expect-error ignore this for now, since test have yet to be set up.
-      process.env.NODE_ENV === 'test' &&
+      process.env.NODE_ENV === "test" &&
       LAST_RAF !== requestAnimationFrame &&
       ((LAST_RAF = requestAnimationFrame), true);
 

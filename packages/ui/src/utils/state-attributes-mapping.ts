@@ -1,13 +1,12 @@
-
 export enum TransitionStatusDataAttributes {
   /**
    * Present when the component is animating in.
    */
-  startingStyle = 'data-starting-style',
+  startingStyle = "data-starting-style",
   /**
    * Present when the component is animating out.
    */
-  endingStyle = 'data-ending-style',
+  endingStyle = "data-ending-style",
 }
 
 // const STARTING_HOOK = { [TransitionStatusDataAttributes.startingStyle]: '' };

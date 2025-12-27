@@ -9,10 +9,17 @@ import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 
 export function CollapsiblePanel(props: CollapsiblePanelProps) {
   const [local, others] = splitProps(props, ["keepMounted", "id"]);
-  const context = useCollapsibleRootContext()
-  const { open, panelId, setPanelId, disabled, triggerId, transitionStatus, mounted,  } =
-    context;
-    let {animationTypeRef, transitionDimensionRef} = context;
+  const context = useCollapsibleRootContext();
+  const {
+    open,
+    panelId,
+    setPanelId,
+    disabled,
+    triggerId,
+    transitionStatus,
+    mounted,
+  } = context;
+  let { animationTypeRef, transitionDimensionRef } = context;
   const keepMounted = createMemo(() => local.keepMounted ?? false);
   createEffect(() => {
     if (local.id && local.id !== panelId()) {
@@ -22,19 +29,22 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
       }
     }
   });
-  const animationState = createMemo(() =>
-     ({[`data-${transitionStatus()}`]: ""})
-    )
-const handlePanelRef = (element: HTMLElement) => {
+  const animationState = createMemo(() => ({
+    [`data-${transitionStatus()}`]: "",
+  }));
+  const handlePanelRef = (element: HTMLElement) => {
     if (!element) {
       return undefined;
     }
     if (animationTypeRef == null || transitionDimensionRef == null) {
       const panelStyles = getComputedStyle(element);
 
-      const hasAnimation = panelStyles.animationName !== 'none' && panelStyles.animationName !== '';
+      const hasAnimation =
+        panelStyles.animationName !== "none" &&
+        panelStyles.animationName !== "";
       const hasTransition =
-        panelStyles.transitionDuration !== '0s' && panelStyles.transitionDuration !== '';
+        panelStyles.transitionDuration !== "0s" &&
+        panelStyles.transitionDuration !== "";
 
       /**
        * animationTypeRef is safe to read in render because it's only ever set
@@ -42,31 +52,37 @@ const handlePanelRef = (element: HTMLElement) => {
        * https://react.dev/learn/referencing-values-with-refs#best-practices-for-refs
        */
       if (hasAnimation && hasTransition) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (process.env.NODE_ENV !== "production") {
           console.warn(
-            'CSS transitions and CSS animations both detected on Collapsible or Accordion panel.',
-            'Only one of either animation type should be used.',
+            "CSS transitions and CSS animations both detected on Collapsible or Accordion panel.",
+            "Only one of either animation type should be used.",
           );
         }
-      } else if (panelStyles.animationName === 'none' && panelStyles.transitionDuration !== '0s') {
-        animationTypeRef = 'css-transition';
-      } else if (panelStyles.animationName !== 'none' && panelStyles.transitionDuration === '0s') {
-        animationTypeRef = 'css-animation';
+      } else if (
+        panelStyles.animationName === "none" &&
+        panelStyles.transitionDuration !== "0s"
+      ) {
+        animationTypeRef = "css-transition";
+      } else if (
+        panelStyles.animationName !== "none" &&
+        panelStyles.transitionDuration === "0s"
+      ) {
+        animationTypeRef = "css-animation";
       } else {
-        animationTypeRef = 'none';
+        animationTypeRef = "none";
       }
     }
-  }
-  createEffect(() => console.log("TRANSITION STATE: ",transitionStatus()))
-  createEffect(() => console.log("ANIMATION STATE: ",animationState()))
-  createEffect(() => console.log("MOUNTED STATE: ",mounted()))
-  const openProp = createMemo(() => open() || mounted())
+  };
+  createEffect(() => console.log("TRANSITION STATE: ", transitionStatus()));
+  createEffect(() => console.log("ANIMATION STATE: ", animationState()));
+  createEffect(() => console.log("MOUNTED STATE: ", mounted()));
+  const openProp = createMemo(() => open() || mounted());
   let panelRef: HTMLElement | null = null;
-  createEffect(() =>{
-    if(panelRef) {
-      handlePanelRef(panelRef)
+  createEffect(() => {
+    if (panelRef) {
+      handlePanelRef(panelRef);
     }
-  }, [open(), mounted(), local, others])
+  }, [open(), mounted(), local, others]);
 
   return (
     <Presence

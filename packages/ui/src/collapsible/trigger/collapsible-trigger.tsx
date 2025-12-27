@@ -15,8 +15,15 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
     "id",
     "ref",
   ]);
-  const { open, disabled, onOpenChange, panelId, triggerId, setTriggerId, handleTrigger } =
-    useCollapsibleRootContext();
+  const {
+    open,
+    disabled,
+    onOpenChange,
+    panelId,
+    triggerId,
+    setTriggerId,
+    handleTrigger,
+  } = useCollapsibleRootContext();
   const controls = createMemo(() => (open() ? panelId() : undefined));
   const nativeButton = createMemo(() => local?.nativeButton);
   const buttonDisabled = createMemo(() => local.disabled ?? disabled());
@@ -31,7 +38,7 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
     ref: local.ref,
   });
 
-  createEffect(() => console.log("TRIGGER OPEN: ", open()))
+  createEffect(() => console.log("TRIGGER OPEN: ", open()));
 
   return (
     <Button

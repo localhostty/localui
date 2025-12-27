@@ -37,7 +37,7 @@ export function CollapsibleRoot(props: CollapsibleRoot.Props) {
     open: openProp,
     defaultOpen,
     onOpenChange: local.onOpenChange,
-    disabled
+    disabled,
   });
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     ...collapsible,
@@ -47,7 +47,6 @@ export function CollapsibleRoot(props: CollapsibleRoot.Props) {
     setPanelId,
     triggerId,
     setTriggerId,
-
   }));
 
   return (

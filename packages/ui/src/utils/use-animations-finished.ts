@@ -17,99 +17,104 @@ export function useAnimationsFinished(
   const frame = useAnimationFrame();
 
   return (
-      /**
-       * A function to execute once all animations have finished.
-       */
-      fnToExecute: () => void,
-      /**
-       * An optional [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) that
-       * can be used to abort `fnToExecute` before all the animations have finished.
-       * @default null
-       */
-      signal: AbortSignal | null = null,
-    ) => {
-      frame.cancel();
+    /**
+     * A function to execute once all animations have finished.
+     */
+    fnToExecute: () => void,
+    /**
+     * An optional [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) that
+     * can be used to abort `fnToExecute` before all the animations have finished.
+     * @default null
+     */
+    signal: AbortSignal | null = null,
+  ) => {
+    frame.cancel();
 
-      function done() {
-        // Synchronously flush the unmounting of the component so that the browser doesn't
-        // paint: https://github.com/mui/base-ui/issues/979
-        fnToExecute();
-      }
+    function done() {
+      // Synchronously flush the unmounting of the component so that the browser doesn't
+      // paint: https://github.com/mui/base-ui/issues/979
+      fnToExecute();
+    }
 
-      const element = elementOrRef;
-      if (element == null) {
-        return;
-      }
-      const resolvedElement = element;
+    const element = elementOrRef;
+    if (element == null) {
+      return;
+    }
+    const resolvedElement = element;
 
-      if (
-        typeof resolvedElement.getAnimations !== 'function'
-      ) {
-        fnToExecute();
-      } else {
-        function execWaitForStartingStyleRemoved() {
-          const startingStyleAttribute = TransitionStatusDataAttributes.startingStyle;
+    if (typeof resolvedElement.getAnimations !== "function") {
+      fnToExecute();
+    } else {
+      function execWaitForStartingStyleRemoved() {
+        const startingStyleAttribute =
+          TransitionStatusDataAttributes.startingStyle;
 
-          // If `[data-starting-style]` isn't present, fall back to waiting one more frame
-          // to give "open" animations a chance to be registered.
-          if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
-            frame.request(exec);
-            return;
-          }
-
-          // Wait for `[data-starting-style]` to have been removed.
-          const attributeObserver = new MutationObserver(() => {
-            if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
-              attributeObserver.disconnect();
-              exec();
-            }
-          });
-
-          attributeObserver.observe(resolvedElement, {
-            attributes: true,
-            attributeFilter: [startingStyleAttribute],
-          });
-
-          signal?.addEventListener('abort', () => attributeObserver.disconnect(), { once: true });
+        // If `[data-starting-style]` isn't present, fall back to waiting one more frame
+        // to give "open" animations a chance to be registered.
+        if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
+          frame.request(exec);
+          return;
         }
 
-        function exec() {
-          Promise.all(resolvedElement.getAnimations().map((anim) => anim.finished))
-            .then(() => {
+        // Wait for `[data-starting-style]` to have been removed.
+        const attributeObserver = new MutationObserver(() => {
+          if (!resolvedElement.hasAttribute(startingStyleAttribute)) {
+            attributeObserver.disconnect();
+            exec();
+          }
+        });
+
+        attributeObserver.observe(resolvedElement, {
+          attributes: true,
+          attributeFilter: [startingStyleAttribute],
+        });
+
+        signal?.addEventListener(
+          "abort",
+          () => attributeObserver.disconnect(),
+          { once: true },
+        );
+      }
+
+      function exec() {
+        Promise.all(
+          resolvedElement.getAnimations().map((anim) => anim.finished),
+        )
+          .then(() => {
+            if (signal?.aborted) {
+              return;
+            }
+
+            done();
+          })
+          .catch(() => {
+            const currentAnimations = resolvedElement.getAnimations();
+
+            if (treatAbortedAsFinished) {
               if (signal?.aborted) {
                 return;
               }
 
               done();
-            })
-            .catch(() => {
-              const currentAnimations = resolvedElement.getAnimations();
-
-              if (treatAbortedAsFinished) {
-                if (signal?.aborted) {
-                  return;
-                }
-
-                done();
-              } else if (
-                currentAnimations.length > 0 &&
-                currentAnimations.some((anim) => anim.pending || anim.playState !== 'finished')
-              ) {
-                // Sometimes animations can be aborted because a property they depend on changes while the animation plays.
-                // In such cases, we need to re-check if any new animations have started.
-                exec();
-              }
-            });
-        }
-
-        if (waitForStartingStyleRemoved) {
-          execWaitForStartingStyleRemoved();
-          return;
-        }
-
-        frame.request(exec);
+            } else if (
+              currentAnimations.length > 0 &&
+              currentAnimations.some(
+                (anim) => anim.pending || anim.playState !== "finished",
+              )
+            ) {
+              // Sometimes animations can be aborted because a property they depend on changes while the animation plays.
+              // In such cases, we need to re-check if any new animations have started.
+              exec();
+            }
+          });
       }
+
+      if (waitForStartingStyleRemoved) {
+        execWaitForStartingStyleRemoved();
+        return;
+      }
+
+      frame.request(exec);
     }
-
+  };
 }
-

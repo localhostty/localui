@@ -8,10 +8,10 @@ import type { CollapsibleRoot } from "./collapsible-root";
 import type { TransitionStatus } from "../../utils/use-transition-status";
 import { useCollapsibleRoot } from "./use-collapsible-root";
 
-export interface CollapsibleRootContext extends Omit<
-  CollapsibleRoot.State,
-  "disabled" | "open"
->, useCollapsibleRoot.ReturnValue {
+export interface CollapsibleRootContext
+  extends
+    Omit<CollapsibleRoot.State, "disabled" | "open">,
+    useCollapsibleRoot.ReturnValue {
   open: Accessor<boolean>;
   mounted: Accessor<boolean>;
   onOpenChange: Setter<boolean>;
@@ -21,7 +21,7 @@ export interface CollapsibleRootContext extends Omit<
   triggerId: Accessor<string>;
   setTriggerId: Setter<string>;
   transitionStatus: Accessor<TransitionStatus>;
-  handleTrigger: (...args: any) => any
+  handleTrigger: (...args: any) => any;
 }
 
 export const CollapsibleRootContext = createContext<
