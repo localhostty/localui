@@ -5,8 +5,8 @@ import {
   splitProps,
 } from "solid-js";
 import { Button } from "../../button/button";
-import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 import { useKey } from "../../utils/use-key";
+import { useCollapsibleRootContext } from "../root/collapsible-root-context";
 
 export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
   const [local, others] = splitProps(props, [
@@ -38,19 +38,17 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
     ref: local.ref,
   });
 
-  createEffect(() => console.log("TRIGGER OPEN: ", open()));
-
   return (
     <Button
       aria-controls={controls()}
+      aria-disabled={buttonDisabled()}
       aria-expanded={open()}
       disabled={buttonDisabled()}
-      aria-disabled={buttonDisabled()}
+      id={triggerId()}
       nativeButton={nativeButton()}
       onClick={handleTrigger}
-      type="button"
-      id={triggerId()}
       ref={local.ref}
+      type="button"
       {...others}
       data-panel-open={open() ? "" : undefined}
     />

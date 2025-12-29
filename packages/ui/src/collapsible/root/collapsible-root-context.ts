@@ -4,8 +4,8 @@ import {
   type Setter,
   useContext,
 } from "solid-js";
-import type { CollapsibleRoot } from "./collapsible-root";
 import type { TransitionStatus } from "../../utils/use-transition-status";
+import type { CollapsibleRoot } from "./collapsible-root";
 import { useCollapsibleRoot } from "./use-collapsible-root";
 
 export interface CollapsibleRootContext

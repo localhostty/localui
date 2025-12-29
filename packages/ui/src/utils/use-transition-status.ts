@@ -18,14 +18,6 @@ export function useTransitionStatus(
       open() && enableIdleState ? "idle" : undefined,
     );
   const [mounted, setMounted] = createSignal(open());
-  createEffect(() =>
-    console.log(`
-    --- TRS ---
-    MOUNTED: ${mounted()}
-    TRS: ${transitionStatus()}
-    OPEN: ${open()}
-    `),
-  );
 
   if (open() && !mounted()) {
     setMounted(true);
@@ -62,7 +54,7 @@ export function useTransitionStatus(
     }
 
     return undefined;
-  }, [open, mounted, transitionStatus, deferEndingState]);
+  });
 
   createEffect(() => {
     if (!open() || enableIdleState) {
@@ -78,7 +70,7 @@ export function useTransitionStatus(
     return () => {
       AnimationFrame.cancel(frame);
     };
-  }, [enableIdleState, open]);
+  });
 
   createEffect(() => {
     if (!open() || !enableIdleState) {
@@ -96,13 +88,14 @@ export function useTransitionStatus(
     return () => {
       AnimationFrame.cancel(frame);
     };
-  }, [enableIdleState, open, mounted, setTransitionStatus, transitionStatus]);
+  });
 
   return createMemo(
     () => ({
       mounted,
       setMounted,
       transitionStatus,
+      setTransitionStatus
     }),
     [mounted, transitionStatus],
   );

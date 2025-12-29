@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@biomejs/biome':
+        specifier: 2.3.10
+        version: 2.3.10
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
@@ -17,6 +20,9 @@ importers:
       typescript:
         specifier: 5.9.2
         version: 5.9.2
+      ultracite:
+        specifier: 6.5.0
+        version: 6.5.0(typescript@5.9.2)
 
   apps/docs:
     dependencies:
@@ -5866,6 +5872,10 @@ snapshots:
       - supports-color
       - vite
 
+  '@trpc/server@11.8.1(typescript@5.9.2)':
+    dependencies:
+      typescript: 5.9.2
+
   '@trpc/server@11.8.1(typescript@5.9.3)':
     dependencies:
       typescript: 5.9.3
@@ -8942,6 +8952,13 @@ snapshots:
 
   trough@2.2.0: {}
 
+  trpc-cli@0.12.1(@trpc/server@11.8.1(typescript@5.9.2))(zod@4.2.1):
+    dependencies:
+      commander: 14.0.2
+    optionalDependencies:
+      '@trpc/server': 11.8.1(typescript@5.9.2)
+      zod: 4.2.1
+
   trpc-cli@0.12.1(@trpc/server@11.8.1(typescript@5.9.3))(zod@4.2.1):
     dependencies:
       commander: 14.0.2
@@ -9038,6 +9055,24 @@ snapshots:
   typescript@5.9.3: {}
 
   ufo@1.6.1: {}
+
+  ultracite@6.5.0(typescript@5.9.2):
+    dependencies:
+      '@clack/prompts': 0.11.0
+      '@trpc/server': 11.8.1(typescript@5.9.2)
+      deepmerge: 4.3.1
+      glob: 13.0.0
+      jsonc-parser: 3.3.1
+      nypm: 0.6.2
+      picocolors: 1.1.1
+      trpc-cli: 0.12.1(@trpc/server@11.8.1(typescript@5.9.2))(zod@4.2.1)
+      zod: 4.2.1
+    transitivePeerDependencies:
+      - '@orpc/server'
+      - '@valibot/to-json-schema'
+      - effect
+      - typescript
+      - valibot
 
   ultracite@6.5.0(typescript@5.9.3):
     dependencies:

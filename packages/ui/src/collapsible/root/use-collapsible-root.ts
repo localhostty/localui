@@ -8,15 +8,16 @@ import {
   Setter,
   splitProps,
 } from "solid-js";
+import { createUniqueLocalId } from "../../utils/common";
+import { useAnimationsFinished } from "../../utils/use-animations-finished";
 import { useControllableState } from "../../utils/use-controllable-state";
 import {
   TransitionStatus,
   useTransitionStatus,
 } from "../../utils/use-transition-status";
-import { createUniqueLocalId } from "../../utils/common";
-import { useAnimationsFinished } from "../../utils/use-animations-finished";
 
 export type AnimationType = "css-transition" | "css-animation" | "none" | null;
+export type AnimationStatusType = "start" | "run" | "end" | "cancel";
 
 export interface Dimensions {
   height: number | undefined;
@@ -36,6 +37,8 @@ export function useCollapsibleRoot(
     defaultProp: defaultOpen,
     onChange: onOpenChange,
   });
+  const [animationStatus, setAnimationStatus] =
+    createSignal<AnimationStatusType>("end");
 
   const { mounted, setMounted, transitionStatus } = useTransitionStatus(
     open,
@@ -47,8 +50,8 @@ export function useCollapsibleRoot(
     height: undefined,
     width: undefined,
   });
-  const [{ height, width }] = splitProps(dimensions(), ["height", "width"]);
-
+  const width = createMemo(() => dimensions().width);
+  const height = createMemo(() => dimensions().height);
   const defaultPanelId = createUniqueLocalId();
   const [panelIdState, setPanelIdState] = createSignal<string | undefined>();
   const panelId = createMemo(() => panelIdState() ?? defaultPanelId);
@@ -66,8 +69,6 @@ export function useCollapsibleRoot(
   const handleTrigger = () => {
     const nextOpen = !open();
 
-    // onOpenChange(nextOpen);
-
     if (animationTypeRef === "css-animation" && panelRef != null) {
       // @ts-expect-error This should work, it just gives an error since it can't properly infer the type for some reason
       panelRef.style.removeProperty("animation-name");
@@ -76,18 +77,15 @@ export function useCollapsibleRoot(
     if (!hiddenUntilFound && !keepMounted) {
       if (animationTypeRef != null && animationTypeRef !== "css-animation") {
         if (!mounted && nextOpen) {
-          console.log("1");
           setMounted(true);
         }
       }
 
       if (animationTypeRef === "css-animation") {
         if (!visible() && nextOpen) {
-          console.log("2");
           setVisible(true);
         }
         if (!mounted() && nextOpen) {
-          console.log("3");
           setMounted(true);
         }
       }
@@ -117,64 +115,32 @@ export function useCollapsibleRoot(
       setMounted(false);
     }
   });
-  createEffect(() =>
-    console.log(`
-    TRANSITION: ${transitionStatus()}
-    OPEN: ${open()}
-    VISIBLE: ${visible()}
-    MOUNTED: ${keepMounted()}
-    IS CONTROLLED: ${isControlled}
-    `),
-  );
-  createEffect(() => console.log(`TRANS OPEN: ${open()}`));
 
-  const result = createMemo(
-    () => ({
-      abortControllerRef,
-      animationTypeRef,
-      disabled,
-      handleTrigger,
-      height,
-      mounted,
-      open,
-      panelId,
-      panelRef,
-      runOnceAnimationsFinish,
-      setDimensions,
-      setHiddenUntilFound,
-      setKeepMounted,
-      setMounted,
-      setOpen,
-      setPanelIdState,
-      setVisible,
-      transitionDimensionRef,
-      transitionStatus,
-      visible,
-      width,
-    }),
-    [
-      abortControllerRef,
-      animationTypeRef,
-      disabled,
-      handleTrigger,
-      height,
-      mounted,
-      open,
-      panelId,
-      panelRef,
-      runOnceAnimationsFinish,
-      setDimensions,
-      setHiddenUntilFound,
-      setKeepMounted,
-      setMounted,
-      setOpen,
-      setVisible,
-      transitionDimensionRef,
-      transitionStatus,
-      visible,
-      width,
-    ],
-  );
+  const result = createMemo(() => ({
+    abortControllerRef,
+    animationTypeRef,
+    disabled,
+    handleTrigger,
+    height,
+    mounted,
+    open,
+    panelId,
+    panelRef,
+    runOnceAnimationsFinish,
+    setDimensions,
+    setHiddenUntilFound,
+    setKeepMounted,
+    setMounted,
+    setOpen,
+    setPanelIdState,
+    setVisible,
+    transitionDimensionRef,
+    transitionStatus,
+    visible,
+    width,
+    animationStatus,
+    setAnimationStatus,
+  }));
   return result();
 }
 
@@ -214,7 +180,8 @@ export interface UseCollapsibleRootReturnValue {
   /**
    * The height of the panel.
    */
-  height: number | undefined;
+  height: Accessor<number | undefined>;
+  // height: number | undefined;
   /**
    * Whether the collapsible panel is currently mounted.
    */
@@ -246,7 +213,9 @@ export interface UseCollapsibleRootReturnValue {
   /**
    * The width of the panel.
    */
-  width: number | undefined;
+  width: Accessor<number | undefined>;
+  animationStatus: Accessor<AnimationStatusType>;
+  setAnimationStatus: Setter<AnimationStatusType>;
 }
 
 export namespace useCollapsibleRoot {

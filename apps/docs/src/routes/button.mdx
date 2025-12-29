@@ -3,6 +3,7 @@ title: Button
 ---
 
 import { Button } from "@local/ui/button";
+import { PropsTable } from "../components/props-table";
 
 # Button Primitive
 
@@ -28,18 +29,20 @@ import { Button } from "@local/ui/button";
 
 ### Button
 
-<table>
-  <tbody>
-    <tr>
-      <td>forwardedRef?: HTMLButtonElement | HTMLDivElement</td>
-      <td>Ref to the root button/div element</td>
-    </tr>
-    <tr>
-      <td>nativeButton?: boolean (default: true)</td>
-      <td>
-        Whether to use a semantic HTML &lt;button&gt; Element or a &lt;div&gt;
-        with type button.
-      </td>
-    </tr>
-  </tbody>
-</table>
+<PropsTable
+  props={[
+    {
+      name: "forwardedRef",
+      type: "HTMLButtonElement | HTMLDivElement",
+      default: "—",
+      description: "Ref to the root button/div element",
+    },
+    {
+      name: "nativeButton",
+      type: "boolean",
+      default: "true",
+      description:
+        "Whether to use a semantic HTML <button> Element or a <div> with type button.",
+    },
+  ]}
+/>

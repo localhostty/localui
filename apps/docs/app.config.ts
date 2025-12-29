@@ -1,5 +1,5 @@
-import { defineConfig } from "@solidjs/start/config";
 import { withSolidBase } from "@kobalte/solidbase/config";
+import { defineConfig } from "@solidjs/start/config";
 
 export default defineConfig(
   withSolidBase(

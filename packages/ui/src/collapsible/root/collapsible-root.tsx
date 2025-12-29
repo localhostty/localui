@@ -25,11 +25,6 @@ export function CollapsibleRoot(props: CollapsibleRoot.Props) {
   const defaultOpen = createMemo(() => local.defaultOpen ?? false);
   const disabled = createMemo(() => local.disabled ?? false);
   const openProp = createMemo(() => local.open);
-  // const [open, onOpenChange] = useControllableState<boolean>({
-  //   prop: openProp,
-  //   defaultProp: defaultOpen,
-  //   onChange: local.onOpenChange,
-  // });
   const [panelId, setPanelId] = createSignal(createUniqueLocalId());
   const [triggerId, setTriggerId] = createSignal(createUniqueLocalId());
 
@@ -53,8 +48,8 @@ export function CollapsibleRoot(props: CollapsibleRoot.Props) {
     <CollapsibleRootContext.Provider value={contextValue()}>
       <Slot
         as="div"
-        data-closed={open() ? undefined : ""}
-        data-open={open() ? "" : undefined}
+        data-closed={collapsible.open() ? undefined : ""}
+        data-open={collapsible.open() ? "" : undefined}
         {...rest}
       />
     </CollapsibleRootContext.Provider>
