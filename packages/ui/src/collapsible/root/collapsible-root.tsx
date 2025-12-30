@@ -3,17 +3,15 @@
 import {
   type Accessor,
   type ComponentProps,
-  createEffect,
   createMemo,
   createSignal,
   type Setter,
   splitProps,
 } from "solid-js";
 import { Slot } from "../../slot/slot";
-import { createUniqueLocalId } from "../../utils/common";
-import { useControllableState } from "../../utils/use-controllable-state";
 import { CollapsibleRootContext } from "./collapsible-root-context";
 import { useCollapsibleRoot } from "./use-collapsible-root";
+import { createUniqueLocalId } from "../../utils/common";
 
 export function CollapsibleRoot(props: CollapsibleRoot.Props) {
   const [local, rest] = splitProps(props, [
@@ -25,7 +23,6 @@ export function CollapsibleRoot(props: CollapsibleRoot.Props) {
   const defaultOpen = createMemo(() => local.defaultOpen ?? false);
   const disabled = createMemo(() => local.disabled ?? false);
   const openProp = createMemo(() => local.open);
-  const [panelId, setPanelId] = createSignal(createUniqueLocalId());
   const [triggerId, setTriggerId] = createSignal(createUniqueLocalId());
 
   const collapsible = useCollapsibleRoot({
@@ -36,10 +33,6 @@ export function CollapsibleRoot(props: CollapsibleRoot.Props) {
   });
   const contextValue: Accessor<CollapsibleRootContext> = createMemo(() => ({
     ...collapsible,
-    onOpenChange: collapsible.setOpen,
-    disabled,
-    panelId,
-    setPanelId,
     triggerId,
     setTriggerId,
   }));
@@ -71,7 +64,8 @@ export interface CollapsibleRootState {
 }
 
 export interface CollapsibleRootProps
-  extends ComponentProps<"div">, CollapsibleRoot.State {
+  extends ComponentProps<"div">,
+    CollapsibleRoot.State {
   /**
    * Whether the collapsible panel is currently open.
    *

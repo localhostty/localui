@@ -8,9 +8,12 @@ import {
   Setter,
   splitProps,
 } from "solid-js";
-import { createUniqueLocalId } from "../../utils/common";
-import { useAnimationsFinished } from "../../utils/use-animations-finished";
 import { useControllableState } from "../../utils/use-controllable-state";
+import {
+  AnimationTracker,
+  createAnimationTracker,
+} from "../../utils/create-animation-tracker";
+import { createUniqueLocalId } from "../../utils/common";
 import {
   TransitionStatus,
   useTransitionStatus,
@@ -25,79 +28,55 @@ export interface Dimensions {
 }
 
 export function useCollapsibleRoot(
-  parameters: useCollapsibleRoot.Parameters,
+  parameters: useCollapsibleRoot.Parameters
 ): useCollapsibleRoot.ReturnValue {
-  const [{ open: openParam, defaultOpen, onOpenChange, disabled }, _] =
-    splitProps(parameters, ["open", "defaultOpen", "onOpenChange", "disabled"]);
+  const [
+    { open: openParam, defaultOpen, onOpenChange: onOpenChangeParam, disabled },
+    _,
+  ] = splitProps(parameters, [
+    "open",
+    "defaultOpen",
+    "onOpenChange",
+    "disabled",
+  ]);
 
   const isControlled = openParam() !== undefined;
 
-  const [open, setOpen] = useControllableState({
+  const tracker = createAnimationTracker();
+  const [open, onOpenChange] = useControllableState({
     prop: openParam,
     defaultProp: defaultOpen,
-    onChange: onOpenChange,
+    onChange: onOpenChangeParam,
   });
-  const [animationStatus, setAnimationStatus] =
-    createSignal<AnimationStatusType>("end");
-
+  const [expanded, setExpanded] = createSignal(open());
   const { mounted, setMounted, transitionStatus } = useTransitionStatus(
     open,
     true,
-    true,
+    true
   )();
-  const [visible, setVisible] = createSignal(true);
+  const [panelId, setPanelId] = createSignal(createUniqueLocalId());
   const [dimensions, setDimensions] = createSignal<Dimensions>({
     height: undefined,
     width: undefined,
   });
   const width = createMemo(() => dimensions().width);
   const height = createMemo(() => dimensions().height);
-  const defaultPanelId = createUniqueLocalId();
-  const [panelIdState, setPanelIdState] = createSignal<string | undefined>();
-  const panelId = createMemo(() => panelIdState() ?? defaultPanelId);
-
-  const [hiddenUntilFound, setHiddenUntilFound] = createSignal(false);
   const [keepMounted, setKeepMounted] = createSignal(false);
 
-  let abortControllerRef: AbortController | null = null;
-  let animationTypeRef: AnimationType = null;
-  let transitionDimensionRef: "width" | "height" | null = null;
-  let panelRef: HTMLElement | null = null;
-
-  const runOnceAnimationsFinish = useAnimationsFinished(panelRef, false);
-
   const handleTrigger = () => {
-    const nextOpen = !open();
-
-    if (animationTypeRef === "css-animation" && panelRef != null) {
-      // @ts-expect-error This should work, it just gives an error since it can't properly infer the type for some reason
-      panelRef.style.removeProperty("animation-name");
-    }
-
-    if (!hiddenUntilFound && !keepMounted) {
-      if (animationTypeRef != null && animationTypeRef !== "css-animation") {
-        if (!mounted && nextOpen) {
-          setMounted(true);
-        }
-      }
-
-      if (animationTypeRef === "css-animation") {
-        if (!visible() && nextOpen) {
-          setVisible(true);
-        }
-        if (!mounted() && nextOpen) {
-          setMounted(true);
-        }
-      }
-    }
-
-    setOpen(nextOpen);
-    if (nextOpen) {
+    if (!open()) {
+      onOpenChange(true);
       setMounted(true);
-    }
-
-    if (animationTypeRef === "none" && mounted() && !nextOpen) {
-      setMounted(false);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          tracker.notifyStateChange();
+          setExpanded(true);
+        });
+      });
+    } else {
+      tracker.notifyStateChange();
+      onOpenChange(false);
+      setExpanded(false);
     }
   };
 
@@ -106,40 +85,28 @@ export function useCollapsibleRoot(
      * Unmount immediately when closing in controlled mode and keepMounted={false}
      * and no CSS animations or transitions are applied
      */
-    if (
-      isControlled &&
-      animationTypeRef === "none" &&
-      !keepMounted() &&
-      !open()
-    ) {
+    if (isControlled && !keepMounted() && !open()) {
       setMounted(false);
     }
   });
 
   const result = createMemo(() => ({
-    abortControllerRef,
-    animationTypeRef,
     disabled,
     handleTrigger,
     height,
     mounted,
     open,
     panelId,
-    panelRef,
-    runOnceAnimationsFinish,
+    setPanelId,
     setDimensions,
-    setHiddenUntilFound,
     setKeepMounted,
     setMounted,
-    setOpen,
-    setPanelIdState,
-    setVisible,
-    transitionDimensionRef,
-    transitionStatus,
-    visible,
+    onOpenChange,
     width,
-    animationStatus,
-    setAnimationStatus,
+    tracker,
+    expanded,
+    setExpanded,
+    transitionStatus,
   }));
   return result();
 }
@@ -170,52 +137,40 @@ export interface UseCollapsibleRootParameters {
 }
 
 export interface UseCollapsibleRootReturnValue {
-  abortControllerRef: AbortController | null;
-  animationTypeRef: AnimationType;
   /**
    * Whether the component should ignore user interaction.
    */
   disabled: Accessor<boolean>;
-  handleTrigger: (event: MouseEvent | KeyboardEvent) => void;
+  handleTrigger: () => void;
   /**
    * The height of the panel.
    */
   height: Accessor<number | undefined>;
-  // height: number | undefined;
-  /**
-   * Whether the collapsible panel is currently mounted.
-   */
-  mounted: Accessor<boolean>;
-  /**
-   * Whether the collapsible panel is currently open.
-   */
-  open: Accessor<boolean>;
-  panelId: Accessor<string>;
-  panelRef: HTMLElement | null;
-  runOnceAnimationsFinish: (
-    fnToExecute: () => void,
-    signal?: AbortSignal | null,
-  ) => void;
-  setDimensions: Setter<Dimensions>;
-  setHiddenUntilFound: Setter<boolean>;
-  setKeepMounted: Setter<boolean>;
-  setMounted: Setter<boolean>;
-  setOpen: Setter<boolean>;
-  setPanelIdState: (id: string | undefined) => void;
-  setVisible: Setter<boolean>;
-  transitionDimensionRef: "height" | "width" | null;
-  transitionStatus: Accessor<TransitionStatus>;
-  /**
-   * The visible state of the panel used to determine the `[hidden]` attribute
-   * only when CSS keyframe animations are used.
-   */
-  visible: Accessor<boolean>;
   /**
    * The width of the panel.
    */
   width: Accessor<number | undefined>;
-  animationStatus: Accessor<AnimationStatusType>;
-  setAnimationStatus: Setter<AnimationStatusType>;
+  setDimensions: Setter<Dimensions>;
+  setKeepMounted: Setter<boolean>;
+  /**
+   * Whether the collapsible panel is currently mounted.
+   */
+  mounted: Accessor<boolean>;
+  setMounted: Setter<boolean>;
+  /**
+   * Whether the collapsible panel is currently open.
+   */
+  open: Accessor<boolean>;
+  onOpenChange: Setter<boolean>;
+  /**
+   * Whether the collapsible is actually expanded
+   */
+  expanded: Accessor<boolean>;
+  setExpanded: Setter<boolean>;
+  panelId: Accessor<string>;
+  setPanelId: Setter<string>;
+  tracker: AnimationTracker;
+  transitionStatus: Accessor<TransitionStatus>;
 }
 
 export namespace useCollapsibleRoot {

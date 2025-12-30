@@ -18,11 +18,11 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
   const {
     open,
     disabled,
-    onOpenChange,
     panelId,
     triggerId,
     setTriggerId,
     handleTrigger,
+    onOpenChange,
   } = useCollapsibleRootContext();
   const controls = createMemo(() => (open() ? panelId() : undefined));
   const nativeButton = createMemo(() => local?.nativeButton);
@@ -32,13 +32,7 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
       setTriggerId(local.id);
     }
   });
-  useKey<HTMLButtonElement>({
-    key: "Escape",
-    action: () => onOpenChange(false),
-    ref: local.ref,
-  });
-
-  return (
+  const element = (
     <Button
       aria-controls={controls()}
       aria-disabled={buttonDisabled()}
@@ -53,6 +47,13 @@ export function CollapsibleTrigger(props: CollapsibleTriggerProps) {
       data-panel-open={open() ? "" : undefined}
     />
   );
+  useKey({
+    key: "Escape",
+    action: () => onOpenChange(false),
+    ref: element,
+  });
+
+  return element;
 }
 
 export interface CollapsibleTriggerProps extends ComponentProps<"button"> {
