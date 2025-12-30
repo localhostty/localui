@@ -28,7 +28,7 @@ export interface Dimensions {
 }
 
 export function useCollapsibleRoot(
-  parameters: useCollapsibleRoot.Parameters
+  parameters: useCollapsibleRoot.Parameters,
 ): useCollapsibleRoot.ReturnValue {
   const [
     { open: openParam, defaultOpen, onOpenChange: onOpenChangeParam, disabled },
@@ -52,7 +52,7 @@ export function useCollapsibleRoot(
   const { mounted, setMounted, transitionStatus } = useTransitionStatus(
     open,
     true,
-    true
+    true,
   )();
   const [panelId, setPanelId] = createSignal(createUniqueLocalId());
   const [dimensions, setDimensions] = createSignal<Dimensions>({

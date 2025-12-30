@@ -12,7 +12,7 @@ export interface Dimensions {
 }
 
 export function useCollapsiblePanel(
-  parameters: useCollapsiblePanel.Parameters
+  parameters: useCollapsiblePanel.Parameters,
 ): useCollapsiblePanel.ReturnValue | void {
   const {
     id,
@@ -63,8 +63,8 @@ export function useCollapsiblePanel(
           setMounted(false);
         }
       },
-      { defer: true }
-    )
+      { defer: true },
+    ),
   );
 }
 

@@ -64,8 +64,7 @@ export interface CollapsibleRootState {
 }
 
 export interface CollapsibleRootProps
-  extends ComponentProps<"div">,
-    CollapsibleRoot.State {
+  extends ComponentProps<"div">, CollapsibleRoot.State {
   /**
    * Whether the collapsible panel is currently open.
    *

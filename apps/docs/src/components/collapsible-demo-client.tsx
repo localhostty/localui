@@ -8,15 +8,13 @@ export default function CollapsibleDemoClient() {
         <ChevronIcon class="size-3 transition-all ease-out group-data-panel-open:rotate-90" />
         Recovery keys
       </Collapsible.Trigger>
-      <Collapsible.Panel
-            class="flex h-[96px] flex-col justify-end overflow-hidden text-sm transition-all ease-out data-ending:h-0 data-starting:h-0 duration-200"
-          >
-            <div class="mt-1! flex cursor-text flex-col gap-2 rounded-sm bg-gray-100 py-2 pl-7">
-              <div>alien-bean-pasta</div>
-              <div>wild-irish-burrito</div>
-              <div>horse-battery-staple</div>
-            </div>
-          </Collapsible.Panel>
+      <Collapsible.Panel class="flex h-[96px] flex-col justify-end overflow-hidden text-sm transition-all ease-out data-ending:h-0 data-starting:h-0 duration-200">
+        <div class="mt-1! flex cursor-text flex-col gap-2 rounded-sm bg-gray-100 py-2 pl-7">
+          <div>alien-bean-pasta</div>
+          <div>wild-irish-burrito</div>
+          <div>horse-battery-staple</div>
+        </div>
+      </Collapsible.Panel>
     </Collapsible.Root>
   );
 }

@@ -1,4 +1,4 @@
-import {createEffect, createMemo, onCleanup } from "solid-js";
+import { createEffect, createMemo, onCleanup } from "solid-js";
 
 export interface useKeyProps<T extends HTMLElement> {
   key: string;
@@ -25,4 +25,3 @@ export function useKey<T extends HTMLElement>(props: useKeyProps<T>) {
     });
   });
 }
-

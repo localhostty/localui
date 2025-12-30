@@ -70,7 +70,7 @@ export function CollapsiblePanel(props: CollapsiblePanelProps) {
           [CollapsiblePanelCssVars.collapsiblePanelWidth as string]:
             width() === undefined ? "auto" : `${width()}px`,
         },
-        local.style
+        local.style,
       )}
       {...others}
       data-closed={open() ? undefined : ""}

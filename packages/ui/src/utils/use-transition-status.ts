@@ -95,7 +95,7 @@ export function useTransitionStatus(
       mounted,
       setMounted,
       transitionStatus,
-      setTransitionStatus
+      setTransitionStatus,
     }),
     [mounted, transitionStatus],
   );
